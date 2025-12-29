@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MapPin, Star, Calendar, Users, Clock, Check } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { getImagePath } from "@/lib/getImagePath";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
@@ -20,7 +21,7 @@ export default function PackagesPage() {
       <section className="relative w-full h-[50vh] bg-gradient-to-r from-teal-500 to-cyan-600">
         <div className="absolute inset-0 overflow-hidden">
           <Image
-            src="/travel-package.jpg"
+            src={getImagePath("/travel-package.jpg")}
             alt="Travel packages"
             fill
             className="object-cover opacity-30"
@@ -125,7 +126,7 @@ export default function PackagesPage() {
               >
                 <div className="relative h-64 w-full">
                   <Image
-                    src={pkg.image || "/placeholder.svg"}
+                    src={getImagePath(pkg.image) || "/placeholder.svg"}
                     alt={pkg.name}
                     fill
                     className="object-cover"
@@ -217,7 +218,7 @@ export default function PackagesPage() {
               <Link href={`/packages?style=${style.id}`} key={index}>
                 <div className="relative h-64 rounded-xl overflow-hidden group">
                   <Image
-                    src={style.image || "/placeholder.svg"}
+                    src={getImagePath(style.image) || "/placeholder.svg"}
                     alt={style.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -260,7 +261,7 @@ export default function PackagesPage() {
               >
                 <div className="relative h-48 w-full">
                   <Image
-                    src={pkg.image || "/placeholder.svg"}
+                    src={getImagePath(pkg.image) || "/placeholder.svg"}
                     alt={pkg.name}
                     fill
                     className="object-cover"
@@ -374,7 +375,7 @@ export default function PackagesPage() {
                   <div className="flex items-center mb-4">
                     <div className="relative h-12 w-12 rounded-full overflow-hidden mr-4">
                       <Image
-                        src={testimonial.avatar || "/placeholder.svg"}
+                        src={getImagePath(testimonial.avatar) || "/placeholder.svg"}
                         alt={testimonial.name}
                         fill
                         className="object-cover"

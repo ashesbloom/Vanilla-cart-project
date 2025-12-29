@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Award, Users, Globe, Clock } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { getImagePath } from "@/lib/getImagePath";
 
 export default function AboutPage() {
   return (
@@ -11,7 +12,7 @@ export default function AboutPage() {
       <section className="relative w-full h-[50vh] bg-gradient-to-r from-teal-500 to-cyan-600">
         <div className="absolute inset-0 overflow-hidden">
           <Image
-            src="/travel-team-bg.avif"
+            src={getImagePath("/travel-team-bg.avif")}
             alt="Team of travel experts"
             fill
             className="object-cover opacity-30"
@@ -75,7 +76,7 @@ export default function AboutPage() {
             </div>
             <div className="relative h-[500px] rounded-xl overflow-hidden">
               <Image
-                src="/travel-team-action.webp"
+                src={getImagePath("/travel-team-action.webp")}
                 alt="Our team in action"
                 fill
                 className="object-cover"

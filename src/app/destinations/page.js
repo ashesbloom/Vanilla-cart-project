@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MapPin, Star, Filter, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { getImagePath } from "@/lib/getImagePath";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -20,7 +21,7 @@ export default function DestinationsPage() {
       <section className="relative w-full h-[50vh] bg-gradient-to-r from-teal-500 to-cyan-600">
         <div className="absolute inset-0 overflow-hidden">
           <Image
-            src="/destinations-bg.webp"
+            src={getImagePath("/destinations-bg.webp")}
             alt="World destinations"
             fill
             className="object-cover opacity-30"
@@ -112,7 +113,7 @@ export default function DestinationsPage() {
               >
                 <div className="relative h-64 w-full">
                   <Image
-                    src={destination.image || "/placeholder.svg"}
+                    src={getImagePath(destination.image) || "/placeholder.svg"}
                     alt={destination.name}
                     fill
                     className="object-cover"

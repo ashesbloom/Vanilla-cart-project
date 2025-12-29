@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Mail } from "lucide-react";
+import { getImagePath } from "@/lib/getImagePath";
 
 export default function Home() {
   return (
@@ -14,7 +15,7 @@ export default function Home() {
       <section className="relative w-full h-[80vh] bg-gradient-to-r from-teal-500 to-cyan-600">
         <div className="absolute inset-0 overflow-hidden">
           <Image
-            src="/hero-bg.jpg"
+            src={getImagePath("/hero-bg.jpg")}
             alt="Tropical beach destination"
             fill
             className="object-cover opacity-30"
@@ -112,7 +113,7 @@ export default function Home() {
               >
                 <div className="relative h-64 w-full">
                   <Image
-                    src={destination.image || "/placeholder.svg"}
+                    src={getImagePath(destination.image) || "/placeholder.svg"}
                     alt={destination.name}
                     fill
                     className="object-cover"
@@ -224,7 +225,7 @@ export default function Home() {
                   <div className="flex items-center mb-4">
                     <div className="relative h-12 w-12 rounded-full overflow-hidden mr-4">
                       <Image
-                        src={testimonial.avatar || "/placeholder.svg"}
+                        src={getImagePath(testimonial.avatar) || "/placeholder.svg"}
                         alt={testimonial.name}
                         fill
                         className="object-cover"
