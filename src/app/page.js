@@ -4,9 +4,8 @@ import { ArrowRight, MapPin, Star, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Mail } from "lucide-react";
 import { getImagePath } from "@/lib/getImagePath";
+import HomeNewsletterForm from "@/components/home-newsletter-form";
 
 export default function Home() {
   return (
@@ -274,20 +273,7 @@ export default function Home() {
               and unbeatable deals.
             </p>
 
-            <form className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-xl mx-auto">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full h-11 bg-white text-gray-900 placeholder:text-gray-500"
-              />
-              <Button
-                type="submit"
-                className="w-full sm:w-auto text-base bg-white text-teal-700 hover:bg-white/90 cursor-pointer h-full"
-              >
-                <Mail className="w-5 h-5" />
-                Subscribe
-              </Button>
-            </form>
+            <HomeNewsletterForm />
           </div>
         </div>
       </section>

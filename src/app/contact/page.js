@@ -1,4 +1,7 @@
-import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Mail, Phone, MapPin, Clock, Send, Loader2, CheckCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +15,59 @@ import {
 } from "@/components/ui/select";
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    inquiryType: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleSelectChange = (value) => {
+    setFormData((prev) => ({ ...prev, inquiryType: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({ type: "success", message: data.message });
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          inquiryType: "",
+          message: "",
+        });
+      } else {
+        setSubmitStatus({ type: "error", message: data.error });
+      }
+    } catch (error) {
+      setSubmitStatus({ type: "error", message: "Network error. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <div className="flex flex-col min-h-screen">
       {/* Contact Form Section */}
@@ -87,19 +143,31 @@ export default function ContactPage() {
 
             <div className="bg-gray-50 p-6 rounded-xl">
               <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
-              <form className="space-y-4">
+              <form className="space-y-4" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label htmlFor="first-name" className="text-sm font-medium">
+                    <label htmlFor="firstName" className="text-sm font-medium">
                       First Name
                     </label>
-                    <Input id="first-name" placeholder="John" />
+                    <Input 
+                      id="firstName" 
+                      placeholder="John" 
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      required
+                    />
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="last-name" className="text-sm font-medium">
+                    <label htmlFor="lastName" className="text-sm font-medium">
                       Last Name
                     </label>
-                    <Input id="last-name" placeholder="Doe" />
+                    <Input 
+                      id="lastName" 
+                      placeholder="Doe" 
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      required
+                    />
                   </div>
                 </div>
 
@@ -111,6 +179,9 @@ export default function ContactPage() {
                     id="email"
                     type="email"
                     placeholder="john.doe@example.com"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
                   />
                 </div>
 
@@ -118,15 +189,20 @@ export default function ContactPage() {
                   <label htmlFor="phone" className="text-sm font-medium">
                     Phone Number
                   </label>
-                  <Input id="phone" placeholder="+1 (555) 000-0000" />
+                  <Input 
+                    id="phone" 
+                    placeholder="+1 (555) 000-0000" 
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                  />
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="inquiry-type" className="text-sm font-medium">
+                  <label htmlFor="inquiryType" className="text-sm font-medium">
                     Inquiry Type
                   </label>
-                  <Select>
-                    <SelectTrigger id="inquiry-type">
+                  <Select value={formData.inquiryType} onValueChange={handleSelectChange}>
+                    <SelectTrigger id="inquiryType">
                       <SelectValue placeholder="Select inquiry type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -147,15 +223,35 @@ export default function ContactPage() {
                     id="message"
                     placeholder="Tell us about your travel plans or questions..."
                     rows={5}
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    required
                   />
                 </div>
+
+                {submitStatus && (
+                  <div className={`p-3 rounded-lg ${submitStatus.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+                    {submitStatus.type === "success" && <CheckCircle className="inline h-4 w-4 mr-2" />}
+                    {submitStatus.message}
+                  </div>
+                )}
 
                 <Button
                   type="submit"
                   className="w-full bg-teal-600 hover:bg-teal-700 text-base cursor-pointer py-6"
+                  disabled={isSubmitting}
                 >
-                  <Send className="h-4 w-4 mr-2" />
-                  Send Message
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4 mr-2" />
+                      Send Message
+                    </>
+                  )}
                 </Button>
               </form>
             </div>

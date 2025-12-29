@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// Contact form submissions
+model ContactInquiry {
+  id          String   @id @default(cuid())
+  firstName   String
+  lastName    String
+  email       String
+  phone       String?
+  inquiryType String
+  message     String
+  createdAt   DateTime @default(now())
+}
+
+// Newsletter subscribers
+model NewsletterSubscriber {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  subscribedAt DateTime @default(now())
+  isActive     Boolean  @default(true)
+}
+
+// Booking inquiries
+model BookingInquiry {
+  id            String   @id @default(cuid())
+  firstName     String
+  lastName      String
+  email         String
+  phone         String?
+  destination   String
+  packageName   String?
+  travelDate    String?
+  travelers     Int      @default(1)
+  budget        String?
+  specialNotes  String?
+  createdAt     DateTime @default(now())
+  status        String   @default("pending")
+}

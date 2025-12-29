@@ -9,8 +9,7 @@ import {
   MapPin,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import NewsletterForm from "@/components/newsletter-form";
 
 export default function Footer() {
   return (
@@ -113,16 +112,7 @@ export default function Footer() {
             <p className="mb-4 text-gray-400">
               Subscribe to our newsletter for travel tips and exclusive offers.
             </p>
-            <div className="space-y-2">
-              <Input
-                type="email"
-                placeholder="Your email address"
-                className="bg-gray-800 border-gray-700 text-white"
-              />
-              <Button className="w-full bg-teal-600 hover:bg-teal-700 cursor-pointer">
-                Subscribe
-              </Button>
-            </div>
+            <NewsletterForm variant="dark" />
           </div>
         </div>
 
